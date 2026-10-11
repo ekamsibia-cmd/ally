@@ -8,16 +8,15 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   const { brandName, user } = await ctx();
   return (
     <>
-      <div className="hero"><div className="w">
-        <div className="brand">
-          <Link href="/campaigns" className="logo"><Logo />Ally<span className="m" style={{ font: "400 14px var(--font-figtree)", marginLeft: 6 }}>{brandName}</span></Link>
-          <nav className="mnav" aria-label="Main">
-            <Link href="/campaigns">Campaigns</Link><Link href="/creators">Creators</Link><Link href="/team">Team</Link>
-            <ThemeToggle />
-            <form action={signOut}><button title={user.email}>Sign out</button></form>
-          </nav>
-        </div>
-      </div></div>
+      <div className="top"><div className="w"><header className="pill app">
+        <Link href="/campaigns" className="logo" aria-label="Ally home"><Logo size={44} /></Link>
+        <span className="bn">{brandName}</span>
+        <nav aria-label="Main">
+          <Link href="/campaigns">Campaigns</Link><Link href="/creators">Creators</Link><Link href="/team">Team</Link><Link href="/billing">Billing</Link>
+          <ThemeToggle />
+          <form action={signOut}><button title={user.email}>Sign out</button></form>
+        </nav>
+      </header></div></div>
       {children}
     </>
   );

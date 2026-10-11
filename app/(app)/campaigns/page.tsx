@@ -2,13 +2,14 @@ import Link from "next/link";
 import { ctx } from "@/lib/ctx";
 import { createCampaign } from "@/app/actions";
 import { inr } from "@/lib/util";
+import PageHead from "@/components/PageHead";
 
 export default async function Campaigns() {
   const { sb } = await ctx();
   const { data: camps } = await sb.from("campaigns").select("*, campaign_creators(fee)").order("created_at", { ascending: false });
   return (
-    <main className="w">
-      <h1>Your campaigns</h1>
+    <><PageHead eyebrow="Campaigns" title="Your campaigns" sub="Every launch in one place." />
+      <main className="w">
       <details className="box" open={!camps?.length}>
         <summary className="btn p">New campaign</summary>
         <form action={createCampaign}>
@@ -36,6 +37,6 @@ export default async function Campaigns() {
         })}
       </div>
       {!camps?.length && <p className="empty">No campaigns yet. Create your first one above.</p>}
-    </main>
+    </main></>
   );
 }

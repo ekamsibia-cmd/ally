@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
   });
   const { data: { user } } = await sb.auth.getUser();
   const p = req.nextUrl.pathname;
-  const open = ["/login", "/auth", "/privacy", "/terms"].some((x) => p.startsWith(x));
+  const open = p === "/" || ["/login", "/auth", "/privacy", "/terms", "/pricing"].some((x) => p.startsWith(x));
   if (!user && !open) {
     const u = req.nextUrl.clone();
     u.pathname = "/login";
@@ -26,4 +26,4 @@ export async function middleware(req: NextRequest) {
   }
   return res;
 }
-export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|csv)$).*)"] };
+export const config = { matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|webp|csv)$).*)"] };

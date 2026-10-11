@@ -1,11 +1,14 @@
 import { supabaseServer } from "@/lib/supabase/server";
 import { roi, inr } from "@/lib/util";
+import { PLANS, planKey } from "@/lib/plan";
 
 // AI drafts and read-outs. The Anthropic key stays on the server; data is read with the user's own login, so row-level security applies.
 export async function POST(req: Request) {
   const sb = await supabaseServer();
   const { data: { user } } = await sb.auth.getUser();
   if (!user) return Response.json({ error: "Please sign in." }, { status: 401 });
+  const { data: mem } = await sb.from("members").select("brands(plan)").eq("user_id", user.id).limit(1);
+  if (!PLANS[planKey((mem?.[0] as any)?.brands?.plan)].ai) return Response.json({ error: "AI drafts and read-outs are on the Growth plan and above." }, { status: 403 });
   const gKey = process.env.GEMINI_API_KEY, aKey = process.env.ANTHROPIC_API_KEY;
   if (!gKey && !aKey) return Response.json({ error: "AI isn't set up yet. Add GEMINI_API_KEY (free) or ANTHROPIC_API_KEY on the server." }, { status: 503 });
   const { kind, id } = await req.json();

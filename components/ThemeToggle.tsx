@@ -6,5 +6,5 @@ export default function ThemeToggle() {
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem("ally-theme", next); } catch {}
   };
-  return <button onClick={flip} aria-label="Switch light or dark mode" type="button">Light / dark</button>;
+  return <button className="tt" onClick={flip} aria-label="Switch light or dark mode" type="button">Light / dark</button>;
 }

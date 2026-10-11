@@ -11,7 +11,7 @@ export default async function Onboarding() {
   if (data?.length) redirect("/campaigns");
   return (
     <div className="center"><form className="panel" action={createBrand}>
-      <div className="logo"><Logo />Ally</div>
+      <div className="logo"><Logo size={52} /></div>
       <h2 style={{ margin: "14px 0 4px" }}>Name your brand</h2>
       <p className="m" style={{ marginTop: 0 }}>This creates your workspace. You can invite teammates next. If a teammate invited you, open their invite link instead.</p>
       <label htmlFor="n">Brand name</label><input id="n" name="name" required placeholder="Glowkind" />

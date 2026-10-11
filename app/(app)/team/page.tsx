@@ -1,6 +1,7 @@
 import { headers } from "next/headers";
 import { ctx } from "@/lib/ctx";
 import { createInvite, removeMember } from "@/app/actions";
+import PageHead from "@/components/PageHead";
 
 export default async function Team() {
   const { sb, role, user, brandName } = await ctx();
@@ -8,9 +9,8 @@ export default async function Team() {
   const { data: invites } = role === "owner" ? await sb.from("invites").select("*").eq("accepted", false).order("created_at") : { data: [] as any[] };
   const h = await headers(); const origin = `${h.get("x-forwarded-proto") || "https"}://${h.get("host")}`;
   return (
-    <main className="w">
-      <h1>Team at {brandName}</h1>
-      <p className="sub">Teammates see the same campaigns and creators. Nobody outside this brand can.</p>
+    <><PageHead eyebrow="Team" title={`Team at ${brandName}`} sub="Teammates see the same campaigns and creators. Nobody outside this brand can." />
+      <main className="w">
       <div className="tw"><table>
         <thead><tr><th>Member</th><th>Role</th><th></th></tr></thead>
         <tbody>{members?.map((m: any) => (
@@ -30,6 +30,6 @@ export default async function Team() {
           ))}
         </>
       ) : <p className="note">Only the owner can invite or remove people.</p>}
-    </main>
+    </main></>
   );
 }

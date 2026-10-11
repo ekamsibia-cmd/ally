@@ -1,6 +1,7 @@
 import { ctx } from "@/lib/ctx";
 import { saveCreator, deleteCreator, importCreators } from "@/app/actions";
 import { K } from "@/lib/util";
+import PageHead from "@/components/PageHead";
 
 const F = (c: any = {}) => (
   <div className="fg">
@@ -21,9 +22,8 @@ export default async function Creators() {
   const { sb } = await ctx();
   const { data } = await sb.from("creators").select("*").order("created_at", { ascending: false });
   return (
-    <main className="w">
-      <h1>Creators</h1>
-      <p className="sub">Everyone you work with, across all campaigns. Add them to a campaign from its Find creators tab.</p>
+    <><PageHead eyebrow="Creators" title="Your creators" sub="Everyone you work with, across all campaigns. Add them to a campaign from its Find creators tab." />
+      <main className="w">
       <div className="row" style={{ alignItems: "flex-start" }}>
         <details className="box" open={!data?.length}>
           <summary className="btn p">Add a creator</summary>
@@ -58,6 +58,6 @@ export default async function Creators() {
           {!data?.length && <tr><td colSpan={7} className="empty">No creators yet. Add one or import a CSV.</td></tr>}
         </tbody>
       </table></div>
-    </main>
+    </main></>
   );
 }
